@@ -8,7 +8,7 @@ print 'Start crawling...'
 page = urllib2.urlopen(base_url + '/teams')
 soup = BeautifulSoup(page, 'html.parser')
 
-print 'Got /teams url!'
+print 'Got teams page!'
 
 teams = soup.findAll('div', attrs={'class': 'team__list'})
 
@@ -18,19 +18,25 @@ for team in teams:
     team_url = team.find('a', href=True)
     all_team_url = base_url + team_url['href']
 
+    print 'Start with url: ' + all_team_url
+
     team_page = urllib2.urlopen(all_team_url)
     team_soup = BeautifulSoup(team_page, 'html.parser')
+
+    print 'Team page is ready!'
 
     city_name = team_soup.find('p', attrs={'class': 'nba-team-header__city-name'}).text.strip()
     team_name = team_soup.find('p', attrs={'class': 'nba-team-header__team-name'}).text.strip()
     nba_team_name = city_name + '_' + team_name
 
-    print 'Start with ' + nba_team_name
+    print 'Start with team: ' + nba_team_name
 
     if not os.path.exists(nba_team_name):
         os.makedirs(nba_team_name)
 
     os.chdir(nba_team_name)
+
+    print 'Team directory has been created: ' + nba_team_name
 
     players = team_soup.find('section', attrs={'class': 'row nba-player-index__row'})
 
@@ -49,7 +55,7 @@ for team in teams:
         print 'Saved image!'
         time.sleep(1)
 
-    print 'Done with ' + nba_team_name + '\n'
+    print 'Done with team: ' + nba_team_name + '\n'
 
     os.chdir('..')
     time.sleep(5)
