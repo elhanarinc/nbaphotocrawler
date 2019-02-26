@@ -10,6 +10,6 @@ In order to start project you will do the following (Assuming you are on the rig
 cd <directory>
 virtualenv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirement.txt
 python nbaphotos.py
 ```
